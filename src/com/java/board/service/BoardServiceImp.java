@@ -112,9 +112,6 @@ public class BoardServiceImp implements BoardService {
 			mav.addObject("count",count);
 			mav.addObject("boardSize",boardSize);
 			mav.addObject("currentPage",currentPage);
-			mav.setViewName("/WEB-INF/view/board/list.jsp");
-			
+			mav.setViewName("/WEB-INF/view/board/list.jsp");		
 		}
-		
-	
 }

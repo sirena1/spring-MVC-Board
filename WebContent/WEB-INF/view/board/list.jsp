@@ -41,10 +41,12 @@
 			<c:forEach var="boardDto" items="${boardList}">
 				<tr>
 					<td>${boardDto.boardNumber}</td>
-					<td>${boardDto.subject}</td>
+					<td>
+						${boardDto.subject}
+					</td>
 					<td>${boardDto.writer}</td>
 					<td>
-						<fmt:formatDate value="${boardDto.writerDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+						<fmt:formatDate value="${boardDto.writeDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 					</td>
 					<td>${boardDto.readCount}</td>
 				</tr>
@@ -54,6 +56,35 @@
 	<br/>
 	
 	<!-- 페이지 번호 -->
-	<center></center>
+	<center>
+		<c:if test="${count > 0}">
+			<c:set var="pageBlock" value="${10}"/>
+			<!-- 
+				int pageCount = (int) count/boardSize+(count%boardSize==0?0:1)
+				int startPage = (int) ((currentPage-1)/pageBlock)*pageBlock+1
+				int endPage = startPage+pageBlock-1
+			 -->
+			 <fmt:parseNumber integerOnly="true" var="pageCount" value="${count/boardSize+(count%boardSize==0?0:1)}"/>
+			 <fmt:parseNumber integerOnly="true" var="result" value="${(currentPage-1)/pageBlock}"/>
+			 <c:set var="startPage" value="${result*pageBlock+1 }"/>
+			 <c:set var="endPage" value="${startPage+pageBlock-1 }"/>
+			 
+			 <c:if test="${endPage}>pageCount">
+			 	<c:set var="endPage" value="${pageCount}"/>
+			 </c:if>
+			 
+			 <c:if test="${startPage>pageBlock}">
+			 	<a href="${root}/board/list.do?pageNumber=${startPage-pageBlock}">[이전]</a>
+			 </c:if>
+			 
+			 <c:forEach var="i" begin="${startPage}" end="${endPage}">
+			 	<a href="${root}/board/list.do?pageNumber=${i}">[${i}]</a>
+			 </c:forEach>
+			 
+			  <c:if test="${endPage<pageBlock}">
+			 	<a href="${root}/board/list.do?pageNumber=${startPage+pageBlock}">[다음]</a>
+			 </c:if>
+		</c:if>
+	</center>
 </body>
 </html>
