@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 
+	<!--DB-->
+		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
+		<property name="username" value="ora_user"/>
+		<property name="password" value="1234"/>
+	</bean>
+
+	<!--myBatis  -->
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:com/java/board/dao/mapper/boardMapper.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactoryBean"/>
+	</bean>
+	
 	<!--HandlerMapping : 해당 주소와 클래스를 연결해주는 역할 -->
 	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="mappings">
 			<props>
 				<prop key="/board/*.do">boardController</prop>
+
 			</props>
 		</property>
 	</bean>
@@ -17,11 +42,38 @@
 		<property name="mappings">
 			<props>
 				<prop key="/board/write.do">boardWrite</prop>
+				<prop key="/board/writeOk.do">boardWriteOk</prop>
+				<prop key="/board/list.do">boardList</prop>
 			</props>
 		</property>
 	</bean>
 	
+	<!--BoardController  -->
 	<bean id="boardController" class="com.java.board.controller.BoardController">
+		<constructor-arg ref="boardServiceImp"></constructor-arg>
 		<property name="methodNameResolver" ref="propertiesMethodNameResolver"/>
 	</bean>
+	
+	<!--BoardService  -->
+	<bean id="boardServiceImp" class="com.java.board.service.BoardServiceImp">
+		<constructor-arg ref="boardDaoImp"/>
+	</bean>
+	
+	<!--BoardDao -->
+	<bean id="boardDaoImp" class="com.java.board.dao.BoardDaoImp">
+		<constructor-arg ref="sqlSessionTemplate"/>
+	</bean>
+	
+	
+	<!--application 공통클래스 -->
+	<bean id="homeAspect" class="com.java.aop.HomeAspect"/>
+	
+	<!--application AOP -->
+	<aop:config>
+		<aop:aspect id="aspect" ref="homeAspect">
+			<aop:pointcut expression="within(com.java..*)" id="pMethod"/>
+			<aop:around method="advice" pointcut-ref="pMethod"/>
+		</aop:aspect>
+	</aop:config>
+	
 </beans>

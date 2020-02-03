@@ -10,12 +10,14 @@
 <script type="text/javascript" src="${root}/javascript/board/script.js"></script>
 <link rel="stylesheet" type="text/css" href="${root}/css/board/style.css"/>
 </head>
+<h3>${boardNumber},${groupNumber}, ${sequenceNumber}, ${sequenceLevel}</h3>
+
 <body>
-	<form class="form_style"  action=" "  method="post" onsubmit="return checkForm(this)">	
-		<input type="hidden" name="boardNumber" value=""/>
-		<input type="hidden" name="groupNumber" value=""/>
-		<input type="hidden" name="sequenceNumber" value=""/>
-		<input type="hidden" name="sequenceLevel" value=""/>
+	<form class="form_style"  action="${root}/board/writeOk.do"  method="post" onsubmit="return checkForm(this)">	
+		<input type="hidden" name="boardNumber" value="${boardNumber}"/>
+		<input type="hidden" name="groupNumber" value="${groupNumber}"/>
+		<input type="hidden" name="sequenceNumber" value="${sequenceNumber}"/>
+		<input type="hidden" name="sequenceLevel" value="${sequenceLevel}"/>
 			
 		<div style="width:598px; height:15px; border-width:2px; text-align:right; padding:15px 0px 0px 0px; border-bottom-width:0px;">
 				글목록

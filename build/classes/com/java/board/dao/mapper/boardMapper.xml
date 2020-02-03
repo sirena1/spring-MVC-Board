@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+	<mapper namespace = "dao.boardMapper">
+		<resultMap type="com.java.board.dto.BoardDto" id="boardDto">
+			<result property="boardNumber" column="board_number"/>
+			<result property="writer" column="writer"/>
+			<result property="subject" column="subject"/>
+			<result property="email" column="email"/>
+			<result property="content" column="content"/>
+			<result property="password" column="password"/>
+			<result property="writeDate" column="write_date"/>
+			<result property="readCount" column="read_count"/>
+			<result property="groupNumber" column="group_number"/>
+			<result property="sequenceNumber" column="sequence_number"/>
+			<result property="sequenceLevel" column="sequence_level"/>
+		</resultMap>
+	
+		<select id="boardGroupNumberMax" resultType="int">
+			select nvl(max(group_number),0) from MVCboard
+		</select>
+		
+		<insert id="boardWriter" parameterType="com.java.board.dto.BoardDto">
+			insert into MVCboard values(board_board_number_seq.nextval,#{writer},#{subject},#{email},#{content},#{password},#{writeDate},#{readCount},#{groupNumber},#{sequenceNumber},#{sequenceLevel})
+		</insert>
+		
+		<select id="boardCount" resultType="int">
+			select count(*) from MVCboard
+		</select>
+		
+		<select id="boardList" parameterType="java.util.Map" resultMap="boardDto">
+			<![CDATA[
+				select * from 
+	 			   (select rownum rnum, a.* from
+	     			   (select * from MVCboard order by group_number desc, sequence_number asc) a)
+				where rnum >= #{startRow} and rnum <=#{endRow}
+			]]>
+		</select>
+	</mapper>

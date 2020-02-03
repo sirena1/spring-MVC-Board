@@ -11,6 +11,7 @@
 	<c:set var="root" value="${pageContext.request.contextPath}"/>
 	<h3>Spring MVC Start!!!!</h3>
 	
-	<a href="${root}/board/write.do">게시판작성</a>
+	<a href="${root}/board/write.do">게시판 작성</a>
+	<a href="${root}/board/list.do">글목록</a>
 </body>
 </html>
