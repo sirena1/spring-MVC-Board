@@ -42,7 +42,7 @@
 				<tr>
 					<td>${boardDto.boardNumber}</td>
 					<td>
-						${boardDto.subject}
+						<a href="${root}/board/read.do?boardNumber=${boardDto.boardNumber}&pageNumber=${currentPage}">${boardDto.subject}</a>
 					</td>
 					<td>${boardDto.writer}</td>
 					<td>
@@ -64,16 +64,17 @@
 				int startPage = (int) ((currentPage-1)/pageBlock)*pageBlock+1
 				int endPage = startPage+pageBlock-1
 			 -->
-			 <fmt:parseNumber integerOnly="true" var="pageCount" value="${count/boardSize+(count%boardSize==0?0:1)}"/>
+			
+			 <fmt:parseNumber integerOnly="true" var="pageCount" value="${count/boardSize+(count%boardSize==0 ? 0:1)}"/>
 			 <fmt:parseNumber integerOnly="true" var="result" value="${(currentPage-1)/pageBlock}"/>
-			 <c:set var="startPage" value="${result*pageBlock+1 }"/>
-			 <c:set var="endPage" value="${startPage+pageBlock-1 }"/>
+			 <c:set var="startPage" value="${result * pageBlock + 1 }"/>
+			 <c:set var="endPage" value="${startPage + pageBlock - 1 }"/>
 			 
-			 <c:if test="${endPage}>pageCount">
+			 <c:if test="${endPage > pageCount}">
 			 	<c:set var="endPage" value="${pageCount}"/>
 			 </c:if>
 			 
-			 <c:if test="${startPage>pageBlock}">
+			 <c:if test="${startPage > pageBlock}">
 			 	<a href="${root}/board/list.do?pageNumber=${startPage-pageBlock}">[이전]</a>
 			 </c:if>
 			 
@@ -81,7 +82,7 @@
 			 	<a href="${root}/board/list.do?pageNumber=${i}">[${i}]</a>
 			 </c:forEach>
 			 
-			  <c:if test="${endPage<pageBlock}">
+			  <c:if test="${endPage < pageBlock}">
 			 	<a href="${root}/board/list.do?pageNumber=${startPage+pageBlock}">[다음]</a>
 			 </c:if>
 		</c:if>

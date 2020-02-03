@@ -9,4 +9,6 @@ public interface BoardService {
 	public void boardWriteOk(ModelAndView mav);
 
 	public void boardList(ModelAndView mav);
+
+	public void boardRead(ModelAndView mav);
 }

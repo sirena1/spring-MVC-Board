@@ -49,4 +49,12 @@ public class BoardController extends MultiActionController {
 		boardService.boardList(mav);
 		return mav;
 	}
+	
+	public ModelAndView boardRead(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("request",request);
+		
+		boardService.boardRead(mav);
+		return mav;
+	}
 }

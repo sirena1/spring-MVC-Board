@@ -38,4 +38,15 @@
 				where rnum >= #{startRow} and rnum <=#{endRow}
 			]]>
 		</select>
+		
+		<update id="boardReadCount" parameterType="int">
+			<![CDATA[
+				update MVCboard set read_count = read_count + 1
+				where board_number=#{boardNumber}
+			]]>
+		</update>
+		
+		<select id="boardRead" parameterType="int" resultMap="boardDto">
+			select * from MVCboard where board_number=#{boardNumber}
+		</select>
 	</mapper>

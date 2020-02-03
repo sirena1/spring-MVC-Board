@@ -114,4 +114,21 @@ public class BoardServiceImp implements BoardService {
 			mav.addObject("currentPage",currentPage);
 			mav.setViewName("/WEB-INF/view/board/list.jsp");		
 		}
+
+		@Override
+		public void boardRead(ModelAndView mav) {
+			Map<String, Object> map = mav.getModelMap();
+			HttpServletRequest request = (HttpServletRequest) map.get("request");
+			
+			int boardNumber = Integer.parseInt(request.getParameter("boardNumber").trim());
+			int pageNumber = Integer.parseInt(request.getParameter("pageNumber").trim());
+			HomeAspect.logger.info(HomeAspect.logMsg + boardNumber + "," + pageNumber);	
+			
+			BoardDto boardDto = boardDao.boardRead(boardNumber);
+			HomeAspect.logger.info(HomeAspect.logMsg + boardDto.toString());	
+			
+			mav.addObject("boardDto",boardDto);
+			mav.addObject("pageNumber",pageNumber);
+			mav.setViewName("/WEB-INF/view/board/read.jsp");	
+		}
 }

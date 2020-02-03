@@ -2,8 +2,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
 
 	<!--DB-->
 		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -27,6 +29,22 @@
 		<constructor-arg ref="sqlSessionFactoryBean"/>
 	</bean>
 	
+	<!--transaction 하나라도 잘 못 됐을 경우 rollback 처리 되야함, db 조회수가 올라가면 안됨-->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED" rollback-for="Exception"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut expression="within(com.java.dao.*)" id="Tmethod"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="Tmethod"/>
+	</aop:config>
+	
 	<!--HandlerMapping : 해당 주소와 클래스를 연결해주는 역할 -->
 	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="mappings">
@@ -44,6 +62,7 @@
 				<prop key="/board/write.do">boardWrite</prop>
 				<prop key="/board/writeOk.do">boardWriteOk</prop>
 				<prop key="/board/list.do">boardList</prop>
+				<prop key="/board/read.do">boardRead</prop>
 			</props>
 		</property>
 	</bean>

@@ -14,4 +14,6 @@ public interface BoardDao {
 
 	public List<BoardDto> boardList(int startRow, int endRow);
 
+	public BoardDto boardRead(int boardNumber);
+
 }

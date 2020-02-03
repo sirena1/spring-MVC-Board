@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.java.aop.HomeAspect;
 import com.java.board.dto.BoardDto;
 
 public class BoardDaoImp implements BoardDao {
@@ -41,6 +42,18 @@ public class BoardDaoImp implements BoardDao {
 		hMap.put("endRow",endRow);
 		
 		return sqlSessionTemplate.selectList("boardList",hMap);
+	}
+
+	@Override
+	public BoardDto boardRead(int boardNumber) {
+		//조회수 증가
+		int check=sqlSessionTemplate.update("boardReadCount", boardNumber);
+		HomeAspect.logger.info(HomeAspect.logMsg + check);
+		
+		//해당 레코드 가져오기
+		BoardDto boardDto = sqlSessionTemplate.selectOne("boardRead",boardNumber);
+		
+		return boardDto;
 	}
 	
 }
