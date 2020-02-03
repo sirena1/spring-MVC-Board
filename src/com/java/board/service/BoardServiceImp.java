@@ -79,7 +79,14 @@ public class BoardServiceImp implements BoardService {
 				HomeAspect.logger.info(HomeAspect.logMsg+boardDto.getGroupNumber());
 				boardDto.setGroupNumber(max+1);
 			} else {				//답글 - 글순서, 글레벨
+				int check = boardDao.boardRNum(groupNumber,sequenceNumber);
+				HomeAspect.logger.info(HomeAspect.logMsg+check);
 				
+				sequenceNumber=sequenceNumber+1;
+				sequenceLevel=sequenceLevel+1;
+				
+				boardDto.setSequenceNumber(sequenceNumber);
+				boardDto.setSequenceLevel(sequenceLevel);
 			}
 		}
 

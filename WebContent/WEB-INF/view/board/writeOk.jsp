@@ -14,7 +14,7 @@
 	<c:if test="${check > 0}">
 		<script type="text/javascript">
 			alert("게시판 글이 작성 되었습니다.");
-			$(location).attr("href","${root}/board/write.do");
+			$(location).attr("href","${root}/board/list.do");
 		</script>
 	</c:if>
 	

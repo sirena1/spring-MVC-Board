@@ -29,7 +29,7 @@
 		<constructor-arg ref="sqlSessionFactoryBean"/>
 	</bean>
 	
-	<!--transaction 하나라도 잘 못 됐을 경우 rollback 처리 되야함, db 조회수가 올라가면 안됨-->
+	<!--transaction 하나라도 잘 못 됐을 경우 rollback 처리 돼야 함, db 조회수가 올라가면 안됨-->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"/>
 	</bean>

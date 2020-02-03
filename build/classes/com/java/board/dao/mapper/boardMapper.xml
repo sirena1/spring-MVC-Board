@@ -49,4 +49,12 @@
 		<select id="boardRead" parameterType="int" resultMap="boardDto">
 			select * from MVCboard where board_number=#{boardNumber}
 		</select>
+		
+		<update id="boardRNum" parameterType="java.util.Map">
+			<![CDATA[
+				update MVCboard set sequence_number=sequence_number+1
+				where group_number=#{groupNumber} and sequence_number>#{sequenceNumber}
+			]]>
+			
+		</update>
 	</mapper>

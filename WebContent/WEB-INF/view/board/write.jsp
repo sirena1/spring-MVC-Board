@@ -20,7 +20,7 @@
 		<input type="hidden" name="sequenceLevel" value="${sequenceLevel}"/>
 			
 		<div style="width:598px; height:15px; border-width:2px; text-align:right; padding:15px 0px 0px 0px; border-bottom-width:0px;">
-				글목록
+				<a href="${root}/board/list.do">글목록</a>
 		</div>
 			
 		<div class="line">

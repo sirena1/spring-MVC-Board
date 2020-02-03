@@ -55,5 +55,14 @@ public class BoardDaoImp implements BoardDao {
 		
 		return boardDto;
 	}
+
+	@Override
+	public int boardRNum(int groupNumber, int sequenceNumber) {
+		Map<String,Integer> hMap = new HashMap<String, Integer>();
+		hMap.put("groupNumber",groupNumber);
+		hMap.put("sequenceNumber",sequenceNumber);
+		
+		return sqlSessionTemplate.update("boardRNum",hMap);
+	}
 	
 }

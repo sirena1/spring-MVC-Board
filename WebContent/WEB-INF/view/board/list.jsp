@@ -42,7 +42,13 @@
 				<tr>
 					<td>${boardDto.boardNumber}</td>
 					<td>
+						<c:if test="${boardDto.sequenceLevel > 0}">
+							<c:forEach begin="0" end="${boardDto.sequenceLevel}">
+								&nbsp;&nbsp;
+							</c:forEach>
+						</c:if>
 						<a href="${root}/board/read.do?boardNumber=${boardDto.boardNumber}&pageNumber=${currentPage}">${boardDto.subject}</a>
+						
 					</td>
 					<td>${boardDto.writer}</td>
 					<td>

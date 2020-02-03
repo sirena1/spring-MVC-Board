@@ -16,4 +16,6 @@ public interface BoardDao {
 
 	public BoardDto boardRead(int boardNumber);
 
+	public int boardRNum(int groupNumber, int sequenceNumber);
+
 }
